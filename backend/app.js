@@ -5,10 +5,10 @@ require("dotenv").config();
 const cors = require("cors");
 const helmet = require("helmet");
 
-const customerRoutes = require("./routes/customerRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const auctionRoutes = require("./routes/auctionRoutes");
-const paymentRoutes = require("./routes/paymentRoutes");
+const customerRoutes = require("./routes/customerRoute");
+const adminRoutes = require("./routes/adminRoute");
+const auctionRoutes = require("./routes/auctionRoute");
+const paymentRoutes = require("./routes/paymentRoute");
 const Report = require("./models/report");
 
 // Create express app
