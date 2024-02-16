@@ -5,7 +5,7 @@ const {
   getAllPayments,
   createPayment,
   updatePaymentStatus,
-} = require("../controller/paymentController");
+} = require("../controller/paymentContrtoller");
 
 // Route to create a new payment
 router.post("/create", createPayment);

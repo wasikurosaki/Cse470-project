@@ -1,80 +1,219 @@
-const Auction = require("../models/auction");
+const bcrypt = require("bcryptjs");
+const dayjs = require("dayjs");
+const utc = require("dayjs/plugin/utc");
+dayjs.extend(utc);
+const jwt = require("jsonwebtoken");
+const { signInToken, tokenForVerify, sendEmail } = require("../config/auth");
+const Admin = require("../models/admin");
 
-const createAuction = async (req, res) => {
+const registerAdmin = async (req, res) => {
   try {
-    const newAuction = new Auction({
-      email: req.body.email,
-      carName: req.body.carName,
-      modelName: req.body.modelName,
-      modelYear: req.body.modelYear,
-      startingPrice: req.body.startingPrice,
-      date: req.body.date,
-      details: req.body.details,
-      image: req.body.image,
-      auctionStartTime: req.body.auctionStartTime,
-      auctionEndTime: req.body.auctionEndTime,
-    });
-
-    const auction = await newAuction.save();
-
-    res.status(200).send({
-      message: "Auction created successfully!",
-      auction,
-    });
-  } catch (err) {
-    res.status(500).send({
-      message: err.message,
-    });
-  }
-};
-
-const getAllAuctions = async (req, res) => {
-  try {
-    const auctions = await Auction.find({}).sort({ timestamp: -1 });
-    res.send(auctions);
-  } catch (err) {
-    res.status(500).send({
-      message: err.message,
-    });
-  }
-};
-
-const getAuctionById = async (req, res) => {
-  const email = req.params.email;
-  try {
-    const auction = await Auction.find({ email });
-    res.send(auction);
-  } catch (err) {
-    res.status(500).send({
-      message: err.message,
-    });
-  }
-};
-
-const updateAuction = async (req, res) => {
-  try {
-    const auction = await Auction.findOne({ _id: req.params.id });
-
-    if (auction) {
-      auction.carName = req.body.carName;
-      auction.modelName = req.body.modelName;
-      auction.modelYear = req.body.modelYear;
-      auction.startingPrice = req.body.startingPrice;
-      auction.date = req.body.date;
-      auction.details = req.body.details;
-      auction.image = req.body.image;
-      auction.auctionStartTime = req.body.auctionStartTime;
-      auction.auctionEndTime = req.body.auctionEndTime;
-
-      const updatedAuction = await auction.save();
-
+    const isAdded = await Admin.findOne({ email: req.body.email });
+    if (isAdded) {
+      return res.status(403).send({
+        message: "This Email already Added!",
+      });
+    } else {
+      const newStaff = new Admin({
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role,
+        password: bcrypt.hashSync(req.body.password),
+      });
+      const staff = await newStaff.save();
+      const token = signInToken(staff);
       res.send({
-        message: "Auction updated successfully!",
-        auction: updatedAuction,
+        token,
+        _id: staff._id,
+        name: staff.name,
+        email: staff.email,
+        role: staff.role,
+        joiningData: Date.now(),
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
+const loginAdmin = async (req, res) => {
+  try {
+    const admin = await Admin.findOne({ email: req.body.email });
+    if (admin && bcrypt.compareSync(req.body.password, admin.password)) {
+      const token = signInToken(admin);
+      res.send({
+        token,
+        _id: admin._id,
+        name: admin.name,
+        phone: admin.phone,
+        email: admin.email,
+        image: admin.image,
+      });
+    } else {
+      res.status(401).send({
+        message: "Invalid Email or password!",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
+const forgetPassword = async (req, res) => {
+  const isAdded = await Admin.findOne({ email: req.body.verifyEmail });
+  if (!isAdded) {
+    return res.status(404).send({
+      message: "Admin/Staff Not found with this email!",
+    });
+  } else {
+    const token = tokenForVerify(isAdded);
+    const body = {
+      from: process.env.EMAIL_USER,
+      to: `${req.body.verifyEmail}`,
+      subject: "Password Reset",
+      html: `<h2>Hello ${req.body.verifyEmail}</h2>
+      <p>A request has been received to change the password for your <strong>carsandbids</strong> account </p>
+
+        <p>This link will expire in <strong> 15 minute</strong>.</p>
+
+        <p style="margin-bottom:20px;">Click this link for reset your password</p>
+
+        <a href=${process.env.ADMIN_URL}/reset-password/${token}  style="background:#22c55e;color:white;border:1px solid #22c55e; padding: 10px 15px; border-radius: 4px; text-decoration:none;">Reset Password </a>
+
+        
+        <p style="margin-top: 35px;">If you did not initiate this request, please contact us immediately at admin@carsandbids.shop</p>
+
+        <p style="margin-bottom:0px;">Thank you</p>
+        <strong>carsandbids Team</strong>
+             `,
+    };
+    const message = "Please check your email to reset password!";
+    sendEmail(body, res, message);
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const token = req.body.token;
+  const { email } = jwt.decode(token);
+  const staff = await Admin.findOne({ email: email });
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET_FOR_VERIFY, (err, decoded) => {
+      if (err) {
+        return res.status(500).send({
+          message: "Token expired, please try again!",
+        });
+      } else {
+        staff.password = bcrypt.hashSync(req.body.newPassword);
+        staff.save();
+        res.send({
+          message: "Your password change successful, you can login now!",
+        });
+      }
+    });
+  }
+};
+
+const addStaff = async (req, res) => {
+  // console.log("add staf....", req.body.staffData);
+  try {
+    const isAdded = await Admin.findOne({ email: req.body.email });
+    if (isAdded) {
+      return res.status(500).send({
+        message: "This Email already Added!",
+      });
+    } else {
+      const newStaff = new Admin({
+        name: { ...req.body.name },
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password),
+        phone: req.body.phone,
+        joiningDate: req.body.joiningDate,
+        role: req.body.role,
+        image: req.body.image,
+      });
+      await newStaff.save();
+      res.status(200).send({
+        message: "Staff Added Successfully!",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+    // console.log("error", err);
+  }
+};
+
+const getAllStaff = async (req, res) => {
+  // console.log('allamdin')
+  try {
+    const admins = await Admin.find({}).sort({ _id: -1 });
+    res.send(admins);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
+const getStaffById = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.params.id);
+    res.send(admin);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
+const updateStaff = async (req, res) => {
+  try {
+    const admin = await Admin.findOne({ _id: req.params.id });
+    // console.log('Updating staff from Master DB', admin);
+    if (admin) {
+      // Updating Master Record - CCDev
+      admin.name = { ...admin.name, ...req.body.name };
+      admin.email = req.body.email;
+      admin.phone = req.body.phone;
+      admin.role = req.body.role;
+      admin.userstatus = req.body.userstatus;
+      admin.userpin = req.body.userpin;
+      admin.joiningData = req.body.joiningDate;
+      admin.forcepwreset = false;
+      admin.password =
+        req.body.password !== undefined
+          ? bcrypt.hashSync(req.body.password)
+          : admin.password;
+      // admin.password = bcrypt.compareSync(
+      //   req.body.password,
+      //   admin.password
+      // )
+      //   ? admin.password
+      //   : bcrypt.hashSync(req.body.password);
+
+      admin.image = req.body.image;
+      const updatedAdmin = await admin.save();
+      const token = signInToken(updatedAdmin);
+      res.send({
+        token,
+        message: "Staff Updated Successfully!",
+        _id: updatedAdmin._id,
+        name: updatedAdmin.name,
+        email: updatedAdmin.email,
+        role: updatedAdmin.role,
+        userid: updatedAdmin.userid,
+        userpin: updatedAdmin.userpin,
+        image: updatedAdmin.image,
       });
     } else {
       res.status(404).send({
-        message: "This Auction not found!",
+        message: "This Staff not found!",
       });
     }
   } catch (err) {
@@ -84,92 +223,51 @@ const updateAuction = async (req, res) => {
   }
 };
 
-const deleteAuction = async (req, res) => {
-  try {
-    await Auction.deleteOne({ _id: req.params.id });
+const deleteStaff = (req, res) => {
+  Admin.deleteOne({ _id: req.params.id }, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: err.message,
+      });
+    } else {
+      res.status(200).send({
+        message: "Admin Deleted Successfully!",
+      });
+    }
+  });
+};
 
-    res.status(200).send({
-      message: "Auction deleted successfully!",
+const updatedStatus = async (req, res) => {
+  try {
+    const newStatus = req.body.status;
+
+    await Admin.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          status: newStatus,
+        },
+      }
+    );
+    res.send({
+      message: `Staff ${newStatus} Successfully!`,
     });
   } catch (err) {
     res.status(500).send({
       message: err.message,
     });
-  }
-};
-
-const bidAuctionbyId = async (req, res) => {
-  const auctionId = req.params.id; // Extract auction ID from URL
-  const { email, trxnid, bidderName, bidAmount } = req.body; // Extract bidder information from request body
-
-  try {
-    // Find the auction document by ID and update it
-    const updatedAuction = await Auction.findByIdAndUpdate(
-      auctionId,
-      {
-        $push: {
-          bidders: {
-            bidderName,
-            bidAmount,
-            bidtrnx: trxnid,
-            bidderEmail: email,
-          },
-        },
-      },
-      { new: true } // Returns the updated document
-    );
-
-    if (!updatedAuction) {
-      return res.status(404).send("Auction not found");
-    }
-
-    // Send the updated auction data as a response
-    res.status(200).json(updatedAuction);
-  } catch (error) {
-    // Handle any errors
-    res.status(500).send("Server Error: " + error.message);
-  }
-};
-
-const bidpayId = async (req, res) => {
-  const auctionId = req.params.id; // Extract auction ID from URL
-  const { trxnid, email } = req.body; // Extract bidder transaction ID and email from request body
-
-  try {
-    // Find the auction document by ID
-    let auction = await Auction.findById(auctionId);
-
-    if (!auction) {
-      return res.status(404).send("Auction not found");
-    }
-
-    // Find the bidder and update payment status
-    const bidderIndex = auction.bidders.findIndex(
-      (bidder) => bidder.bidtrnx === trxnid && bidder.bidderEmail === email
-    );
-    if (bidderIndex === -1) {
-      return res.status(404).send("Bidder not found");
-    }
-
-    auction.bidders[bidderIndex].payment = true; // Update payment status to true
-
-    // Save the updated auction
-    const updatedAuction = await auction.save();
-
-    // Send the updated auction data as a response
-    res.status(200).json(updatedAuction);
-  } catch (error) {
-    // Handle any errors
-    res.status(500).send("Server Error: " + error.message);
   }
 };
 
 module.exports = {
-  createAuction,
-  getAllAuctions,
-  getAuctionById,
-  updateAuction,
-  deleteAuction,
-  bidAuctionbyId,
-  bidpayId,
+  registerAdmin,
+  loginAdmin,
+  forgetPassword,
+  resetPassword,
+  addStaff,
+  getAllStaff,
+  getStaffById,
+  updateStaff,
+  deleteStaff,
+  updatedStatus,
 };

@@ -14,22 +14,22 @@ const { passwordVerificationLimit } = require("../lib/email-sender/sender");
 //login a admin
 router.post("/login", loginAdmin);
 
-//add a staff
-router.post("/add", addStaff);
+// //add a staff
+// router.post("/add", addStaff);
 
-//get all staff
-router.get("/", getAllStaff);
+// //get all staff
+// router.get("/", getAllStaff);
 
-//get a staff
-router.post("/:id", getStaffById);
+// //get a staff
+// router.post("/:id", getStaffById);
 
-//update a staff
-router.put("/:id", updateStaff);
+// //update a staff
+// router.put("/:id", updateStaff);
 
-//update staf status
-router.put("/update-status/:id", updatedStatus);
+// //update staf status
+// router.put("/update-status/:id", updatedStatus);
 
-//delete a staff
-router.delete("/:id", deleteStaff);
+// //delete a staff
+// router.delete("/:id", deleteStaff);
 
 module.exports = router;
