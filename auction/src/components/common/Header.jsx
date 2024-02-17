@@ -20,29 +20,29 @@ const Header = () => {
   return (
     <nav className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center md:justify-between justify-center md:gap-0 gap-1 h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <img className="h-20 w-auto" src={Img} alt="Bids & Beyond" />
             </div>
             {/* Links */}
-            <div className="flex space-x-4">
+            <div className="flex flex-row gap-0">
               <Link
                 to="/"
-                className="text-white rounded-md px-3 py-2 text-sm font-medium"
+                className="text-white rounded-md px-1 py-2 text-sm font-medium"
                 aria-current="page"
               >
                 Home
               </Link>
               <Link
                 to="/admin"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-1 py-2 text-sm font-medium"
               >
                 Admin
               </Link>
               <Link
                 to="/customer"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-1 py-2 text-sm font-medium"
               >
                 Customer
               </Link>
@@ -64,12 +64,12 @@ const Header = () => {
                 >
                   Logout
                 </Link>
-                <Link
+                {/* <Link
                   to="/changepass"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                 >
                   Change Password
-                </Link>
+                </Link> */}
               </div>
             )}
           </div>

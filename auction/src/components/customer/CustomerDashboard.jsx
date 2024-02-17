@@ -327,7 +327,7 @@ const CustomerDashboard = () => {
             />
           </div>
         </div>
-        <div className="flex justify-start ml-2 mb-2">
+        <div className="flex md:justify-start ml-2 mb-2 justify-center">
           <button
             type="submit"
             className="px-4 py-2 font-bold text-white bg-gray-800 rounded hover:bg-gray-900 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
@@ -381,7 +381,7 @@ const CustomerDashboard = () => {
                     item.bidders?.some((bidder) => bidder.bidderEmail)
                   ) && <p>No notifications</p>}
                 <button
-                  className="mt-4 bg-gray-800 text-white rounded px-4 py-2 hover:bg-gray-900"
+                  className="mt-4 bg-gray-800 text-white rounded px-4 py-2 hover:bg-gray-900 "
                   onClick={closeModal}
                 >
                   Close Modal
