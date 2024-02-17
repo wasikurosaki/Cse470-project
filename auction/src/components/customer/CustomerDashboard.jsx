@@ -133,7 +133,7 @@ const CustomerDashboard = () => {
     <>
       <div className=" flex flex-row justify-between ml-5  mt-10 relative">
         <div className="absolute h-0.5 w-full bg-gray-800 bottom-0"></div>
-        <p className=" font-semibold text-2xl ">On Going Auctions</p>
+        <p className=" font-semibold md:text-2xl text-lg ">On Going Auctions</p>
         <button
           className={`rounded shadow-sm text-white ${
             usercardata?.length === 0
@@ -180,16 +180,16 @@ const CustomerDashboard = () => {
         )}
       </div>
 
-      <div className="ml-5 font-semibold my-10 text-2xl relative">
+      <div className="ml-5 font-semibold my-10 md:text-2xl text-xl relative">
         Auctoin Your Car
         <div className="absolute h-0.5 w-full bg-gray-800 bottom-0"></div>
       </div>
 
-      <div className="flex justify-center bg-gray-900 rounded-[50px] shadow-lg">
+      <div className="flex justify-center bg-gray-900 rounded-[50px] shadow-lg md:mx-0 mx-5">
         <Auctoinform />
       </div>
 
-      <div className="ml-5 font-semibold my-10 text-2xl relative">
+      <div className="ml-5 font-semibold my-10 md:text-2xl text-xl relative">
         My Auctions
         <div className="absolute h-0.5 w-full bg-gray-800 bottom-0"></div>
       </div>

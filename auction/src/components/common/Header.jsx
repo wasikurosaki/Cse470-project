@@ -23,7 +23,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <img className="h-8 w-auto" src={Img} alt="Your Company" />
+              <img className="h-20 w-auto" src={Img} alt="Bids & Beyond" />
             </div>
             {/* Links */}
             <div className="flex space-x-4">
@@ -48,7 +48,7 @@ const Header = () => {
               </Link>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center flex-row ">
             {!userLoggedIn ? (
               <Link
                 to="/login"
@@ -57,7 +57,7 @@ const Header = () => {
                 Login
               </Link>
             ) : (
-              <div className="flex space-x-4">
+              <div className="flex flex-row gap-2">
                 <Link
                   onClick={handleLogout}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"

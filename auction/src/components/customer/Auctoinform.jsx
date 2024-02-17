@@ -74,7 +74,10 @@ const Auctoinform = () => {
 
   return (
     <div>
-      <form className="w-full max-w-lg my-10" onSubmit={handleSubmit}>
+      <form
+        className="w-full max-w-lg my-10 md:px-0 px-5"
+        onSubmit={handleSubmit}
+      >
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
@@ -230,7 +233,7 @@ const Auctoinform = () => {
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex md:justify-end justify-center">
           <button
             type="submit"
             className="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
