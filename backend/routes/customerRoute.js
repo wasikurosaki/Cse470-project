@@ -31,9 +31,6 @@ router.post("/login", loginCustomer);
 //register or login with google and fb
 router.post("/signup/:token", signUpWithProvider);
 
-//forget-password
-router.put("/forget-password", passwordVerificationLimit, forgetPassword);
-
 //reset-password
 router.put("/reset-password", resetPassword);
 
