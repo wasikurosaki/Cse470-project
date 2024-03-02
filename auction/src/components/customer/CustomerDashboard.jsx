@@ -129,6 +129,16 @@ const CustomerDashboard = () => {
     animation:
       usercardata?.length === 0 ? "" : "shake 0.5s ease-in-out infinite",
   };
+
+  const redirectToWhatsApp = () => {
+    // Replace 'whatsappphonenumber' with the actual WhatsApp phone number
+    // including the country code but without any leading zeros, brackets, or dashes.
+    const phoneNumber = "+8801727260141";
+    // Construct the WhatsApp URL
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    // Redirect the user to the WhatsApp URL
+    window.location.href = whatsappUrl;
+  };
   return (
     <>
       <div className=" flex flex-row justify-between ml-5  mt-10 relative">
@@ -144,6 +154,12 @@ const CustomerDashboard = () => {
           onClick={openModal}
         >
           Show Notification
+        </button>
+        <button
+          className="rounded-full mr-4 mb-4 fixed right-0 bottom-0 z-100000"
+          onClick={redirectToWhatsApp}
+        >
+          Contact
         </button>
       </div>
 
