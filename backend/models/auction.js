@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const mongoose = require("mongoose");
 
 const bidderSchema = new mongoose.Schema({
@@ -22,6 +23,10 @@ const bidderSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+
+  paymentinfo: {
+    type: json,
+  }
 });
 
 const auctionSchema = new mongoose.Schema(
