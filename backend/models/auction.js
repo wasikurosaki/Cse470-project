@@ -19,14 +19,13 @@ const bidderSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  paymentData: {
+    type: JSON,
+  },
   payment: {
     type: Boolean,
     default: false,
   },
-
-  paymentinfo: {
-    type: json,
-  }
 });
 
 const auctionSchema = new mongoose.Schema(

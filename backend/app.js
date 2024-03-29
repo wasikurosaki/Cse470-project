@@ -35,6 +35,7 @@ app.get("/", (req, res) => {
 app.use("/api/customer/", customerRoutes);
 app.use("/api/admin/", adminRoutes);
 app.use("/api/auctoin", auctionRoutes);
+app.use("api/payment",paymentRoutes)
 
 app.get("/api/report", async (req, res) => {
   const reportData = await Report.find({});
