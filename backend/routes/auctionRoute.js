@@ -8,6 +8,7 @@ const {
   deleteAuction,
   bidAuctionbyId,
   bidpayId,
+  bidpayStripe,
 } = require("../controller/auctionController");
 
 // create auction
@@ -25,6 +26,8 @@ router.put("/:id", updateAuction);
 router.put("/bid/:id", bidAuctionbyId);
 
 router.put("/bid/pay/:id", bidpayId);
+
+router.post("/bid/pay/stripe/:id",bidpayStripe)
 
 // delete an auction by ID
 router.delete("/:id", deleteAuction);

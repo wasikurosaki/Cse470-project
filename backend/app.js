@@ -8,7 +8,7 @@ const helmet = require("helmet");
 const customerRoutes = require("./routes/customerRoute");
 const adminRoutes = require("./routes/adminRoute");
 const auctionRoutes = require("./routes/auctionRoute");
-const paymentRoutes = require("./routes/paymentRoute");
+const paymentRoutes = require("./routes/paymentRoutes");
 const Report = require("./models/report");
 
 // Create express app
@@ -35,6 +35,7 @@ app.get("/", (req, res) => {
 app.use("/api/customer/", customerRoutes);
 app.use("/api/admin/", adminRoutes);
 app.use("/api/auctoin", auctionRoutes);
+app.use("api/payment",paymentRoutes)
 
 app.get("/api/report", async (req, res) => {
   const reportData = await Report.find({});

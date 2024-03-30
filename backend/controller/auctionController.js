@@ -164,6 +164,10 @@ const bidpayId = async (req, res) => {
   }
 };
 
+const bidpayStripe = async(req,res) =>{
+  
+}
+
 module.exports = {
   createAuction,
   getAllAuctions,
@@ -172,4 +176,5 @@ module.exports = {
   deleteAuction,
   bidAuctionbyId,
   bidpayId,
+  bidpayStripe
 };
