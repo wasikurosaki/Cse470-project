@@ -139,6 +139,20 @@ const CustomerDashboard = () => {
     // Redirect the user to the WhatsApp URL
     window.location.href = whatsappUrl;
   };
+
+  function changeStatus(obj_id) {
+    console.log(obj_id);
+    axios
+      .get(`http://localhost:3001/api/auctoin/bid/pay/${obj_id}`)
+      .then((response) => {
+        console.log("Success:", response.data);
+        // Reload the page after the request is successful
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
   return (
     <>
       <div className=" flex flex-row justify-between ml-5  mt-10 relative">

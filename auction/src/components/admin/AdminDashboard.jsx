@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Tablecom from "./Tablecom";
 import Auctioncard from "../customer/Auctioncard";
 import axios from "axios";
+import AiData from "./AiData";
 const AdminDashboard = () => {
   function checkUserLoggedIn() {
     const token = localStorage.getItem("token");
@@ -324,6 +325,12 @@ const AdminDashboard = () => {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+          <div className="my-10">
+            <h1 className="font-bold text-2xl ml-4">Generate Report</h1>
+            <div className="ml-4 mt-4">
+              <AiData />
             </div>
           </div>
         </div>
