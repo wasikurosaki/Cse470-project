@@ -167,8 +167,8 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="my-10">
-            <div className="flex fle-row gap-4 items-center">
+          <div className="my-10 md:w-auto w-auto ">
+            <div className="flex fle-row gap-4 items-center w-auto">
               <h1 className="font-bold text-2xl ml-4">All Bids</h1>
               <input
                 className="border-2 border-gray-800 rounded-md px-2"
@@ -178,7 +178,7 @@ const AdminDashboard = () => {
                 onChange={handleSearch2}
               />
             </div>
-            <div className="mt-2 h-0.5 w-full bg-gray-800"></div>
+            <div className="mt-2 h-0.5 md:w-full bg-gray-800"></div>
             <div className="mt-10 mx-4">
               <table>
                 <thead>
@@ -189,12 +189,12 @@ const AdminDashboard = () => {
                     <th className="bg-gray-800 text-white text-center rounded-md">
                       Car Name
                     </th>
-                    <th className="bg-gray-800 text-white text-center rounded-md">
-                      From
-                    </th>
-                    <th className="bg-gray-800 text-white text-center rounded-md">
-                      To
-                    </th>
+                    <th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
+  From
+</th>
+<th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
+  To
+</th>
                     <th className="bg-gray-800 text-white text-center rounded-md">
                       Bid Amount
                     </th>
@@ -206,8 +206,8 @@ const AdminDashboard = () => {
                       <tr>
                         <td>1</td>
                         <td>{item1.carName}</td>
-                        <td>{item1.email}</td>
-                        <td>{item2.bidderEmail}</td>
+                        <td className="hidden md:table-cell">{item1.email}</td>
+                        <td className="hidden md:table-cell">{item2.bidderEmail}</td>
                         <td>{item2.bidAmount}</td>
                       </tr>
                     ))
@@ -235,15 +235,15 @@ const AdminDashboard = () => {
                     <th className="bg-gray-800 text-white text-center rounded-md">
                       ID
                     </th>
-                    <th className="bg-gray-800 text-white text-center rounded-md">
+                    <th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
                       Car Name
                     </th>
-                    <th className="bg-gray-800 text-white text-center rounded-md">
-                      From
-                    </th>
-                    <th className="bg-gray-800 text-white text-center rounded-md">
-                      To
-                    </th>
+                    <th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
+  From
+</th>
+<th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
+  To
+</th>
                     <th className="bg-gray-800 text-white text-center rounded-md">
                       Bid Amount
                     </th>
@@ -259,10 +259,10 @@ const AdminDashboard = () => {
                         item2.payment === false && (
                           <tr>
                             <td>1</td>
-                            <td>{item1.carName}</td>
-                            <td>{item1.email}</td>
-                            <td>{item2.bidderEmail}</td>
-                            <td>{item2.bidAmount}</td>
+                            <td className="hidden md:table-cell">{item1.carName}</td>
+                            <td className="hidden md:table-cell">{item1.email}</td>
+                            <td className="hidden md:table-cell">{item2.bidderEmail}</td>
+                            <td >{item2.bidAmount}</td>
                             <td className="flex flex-row items-center justify-around">
                               <button
                                 className="rounded shadow-sm bg-teal-600 hover:bg-teal-800"
