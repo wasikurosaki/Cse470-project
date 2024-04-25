@@ -4,7 +4,7 @@ import OpenAI from "openai";
 
 const AiData = () => {
   const [data, setData] = useState([]);
-  const [searchQuery3, setSearchQuery3] = useState("");
+  const [searchQuery2, setSearchQuery2] = useState("");
   const [response, setResponse] = useState("");
   const [command, setCommand] = useState("");
 
@@ -54,8 +54,8 @@ const AiData = () => {
     }
   };
 
-  const filteredData3 = data?.filter((item) =>
-    item.carName.toLowerCase().includes(searchQuery3.toLowerCase())
+  const filteredData2 = data?.filter((item) =>
+    item.carName.toLowerCase().includes(searchQuery2.toLowerCase())
   );
 
   return (
@@ -84,29 +84,27 @@ const AiData = () => {
                 Car Name
               </th>
               <th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
-  From
-</th>
-<th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
-  To
-</th>
+                From
+              </th>
+              <th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
+                To
+              </th>
               <th className="bg-gray-800 text-white text-center rounded-md">
                 Bid Amount
               </th>
             </tr>
           </thead>
           <tbody>
-            {filteredData3?.map((item1, index1) =>
-              item1.bidders?.map((item2, index2) =>
-                item2.payment === false ? (
-                  <tr key={`${index1}-${index2}`}>
-                    <td>{index1 + 1}</td>
-                    <td>{item1.carName}</td>
-                    <td className="hidden md:table-cell">{item1.email}</td>
-                        <td className="hidden md:table-cell">{item2.bidderEmail}</td>
-                    <td>{item2.bidAmount}</td>
-                  </tr>
-                ) : null
-              )
+            {filteredData2?.map((item1) =>
+              item1.bidders?.map((item2, index) => (
+                <tr>
+                  <td>1</td>
+                  <td>{item1.carName}</td>
+                  <td className="hidden md:table-cell">{item1.email}</td>
+                  <td className="hidden md:table-cell">{item2.bidderEmail}</td>
+                  <td>{item2.bidAmount}</td>
+                </tr>
+              ))
             )}
           </tbody>
         </table>

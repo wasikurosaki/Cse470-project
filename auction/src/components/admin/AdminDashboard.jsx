@@ -190,11 +190,11 @@ const AdminDashboard = () => {
                       Car Name
                     </th>
                     <th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
-  From
-</th>
-<th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
-  To
-</th>
+                      From
+                    </th>
+                    <th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
+                      To
+                    </th>
                     <th className="bg-gray-800 text-white text-center rounded-md">
                       Bid Amount
                     </th>
@@ -207,7 +207,9 @@ const AdminDashboard = () => {
                         <td>1</td>
                         <td>{item1.carName}</td>
                         <td className="hidden md:table-cell">{item1.email}</td>
-                        <td className="hidden md:table-cell">{item2.bidderEmail}</td>
+                        <td className="hidden md:table-cell">
+                          {item2.bidderEmail}
+                        </td>
                         <td>{item2.bidAmount}</td>
                       </tr>
                     ))
@@ -239,11 +241,11 @@ const AdminDashboard = () => {
                       Car Name
                     </th>
                     <th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
-  From
-</th>
-<th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
-  To
-</th>
+                      From
+                    </th>
+                    <th className="hidden md:table-cell bg-gray-800 text-white text-center rounded-md">
+                      To
+                    </th>
                     <th className="bg-gray-800 text-white text-center rounded-md">
                       Bid Amount
                     </th>
@@ -259,10 +261,16 @@ const AdminDashboard = () => {
                         item2.payment === false && (
                           <tr>
                             <td>1</td>
-                            <td className="hidden md:table-cell">{item1.carName}</td>
-                            <td className="hidden md:table-cell">{item1.email}</td>
-                            <td className="hidden md:table-cell">{item2.bidderEmail}</td>
-                            <td >{item2.bidAmount}</td>
+                            <td className="hidden md:table-cell">
+                              {item1.carName}
+                            </td>
+                            <td className="hidden md:table-cell">
+                              {item1.email}
+                            </td>
+                            <td className="hidden md:table-cell">
+                              {item2.bidderEmail}
+                            </td>
+                            <td>{item2.bidAmount}</td>
                             <td className="flex flex-row items-center justify-around">
                               <button
                                 className="rounded shadow-sm bg-teal-600 hover:bg-teal-800"
